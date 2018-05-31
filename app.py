@@ -66,15 +66,6 @@ def api_home():
     return response
 
 
-@app.route('/api/test', methods=['POST', 'GET'])
-def test():
-    request_info = extract_request(request, session)
-    response = make_response(json.dumps(
-        {"name": "Test Endpoint", 'request_info': request_info}))
-    response.set_cookie('dt', get_now())
-    return response
-
-
 if __name__ == '__main__':
     app.secret_key = 'this needs to be changed in production'
     app.debug = True
