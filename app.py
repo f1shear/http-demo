@@ -6,7 +6,7 @@ import logging
 import datetime
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 
 def extract_info(val):
