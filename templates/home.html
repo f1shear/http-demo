@@ -85,13 +85,16 @@
 <div class='row'>
 
 	<div class='col-4'>
-		<h4> GET/POST </h4>
+		<h4> GET </h4>
 
 	<p>
 		Click on the button "Request" below to send ajax request to endpoint /api/ using <b>GET</b> method.
 	</p>
 <button class='btn btn-default' v-on:click='fetchApi()'> Request </button>
 
+<hr>
+
+<h4> POST </h4>
 <form v-on:submit.prevent="postApi()">
 
 	<p>
@@ -101,6 +104,17 @@
 	<input type='text' name='message' v-model='form.message'>
 	<button class='btn btn-default' type='submit'> Send </button>
 </form>
+
+
+<h4> Authenticate </h4>
+
+	<p>
+		Click on the button "Authenticate" to authenticate.
+	</p>
+	<button class='btn btn-default' v-on:click='authenticate()'>
+		Authenticate
+	</button>
+
 
 </div>
 
@@ -159,6 +173,10 @@ $(document).ready(function(){
     	request: '',
     	form: {
     		message: ''
+    	},
+    	login:{
+    		username: '',
+    		password: ''
     	}
   	},
   	mounted: function(){
@@ -183,6 +201,9 @@ $(document).ready(function(){
   			$.post("/api/", that.form, function(data, status){
 		        that.response = JSON.stringify(JSON.parse(data), null, 2);
 		    });
+  		},
+  		authenticate: function(){
+  			alert("todo");
   		}
   	}
 	});
