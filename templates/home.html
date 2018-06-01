@@ -11,10 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="/static/main.css">
 
 	<div class='page'>
+
+		<h2> Server Rendered </h2>
+		<b> Please refresh to see the change </b>
+		<hr>
 	<div class='row '>
 		<div class='col-6'>
-		<h2> HTTP Playground </h2>
-		<h3> Headers </h3>
+		
+		<h4> Headers </h4>
 		<ul>
 		{% for key, value in request_info.headers.items() %}
 			<li>{{key}}  - {{ value }}</li>
@@ -25,7 +29,7 @@
 		
 		</div>
 		<div class='col-6'>
-		<h3> Query Params </h3>
+		<h4> Query Params </h4>
 
 		<ul>
 		{% for key, value in request_info.query_params.items() %}
@@ -37,7 +41,7 @@
 		</ul>
 		
 
-		<h3> Form </h3>
+		<h4> Form </h4>
 
 		<ul>
 		{% for key, value in request_info.form.items() %}
@@ -72,24 +76,41 @@
 {% raw %}
 <div id='app'>
 	<div class='row'>
-		<div class='col-3'>
-	<h2> {{title}} </h2>
+		<div class='col-12'>
+	<h2> Dynamic: {{title}} </h2>
 </div>
-<div class='col-6'>
-<button class='btn btn-default' v-on:click='fetchApi()'> Fetch </button>
-</div>
-</div>
-<div class='col-6'>
 
-	</div>
+</div>
+
 <div class='row'>
-	<div class='col-6'>
+
+	<div class='col-4'>
+		<h4> GET/POST </h4>
+
+	<p>
+		Click on the button "Request" below to send ajax request to endpoint /api/ using <b>GET</b> method.
+	</p>
+<button class='btn btn-default' v-on:click='fetchApi()'> Request </button>
+
+<form v-on:submit.prevent="postApi()">
+
+	<p>
+		Click on the button "Send" below to send ajax request to endpoint /api/ using <b>POST </b> method.
+	</p>
+
+	<input type='text' name='message' v-model='form.message'>
+	<button class='btn btn-default' type='submit'> Send </button>
+</form>
+
+</div>
+
+	<div class='col-4'>
 		
 
 		
 		
 		<div id='request-content'>
-			<h3> XHR Request </h3>
+			<h4> XHR Request </h4>
 			<pre>
 				{{request}}
 			</pre>
@@ -99,10 +120,10 @@
 		
 
 	</div>
-	<div class='col-6'>
+	<div class='col-4'>
 
 		<div id='response-content'>
-			<h3> Response Body</h3>
+			<h4> Response Body</h4>
 			<pre>
 				{{response}}
 			</pre>
@@ -133,9 +154,12 @@ $(document).ready(function(){
 	var app = new Vue({
   	el: '#app',
   	data: {
-    	title: 'Vue Powered Playkit',
+    	title: 'Vue Powered',
     	response: '',
-    	request: ''
+    	request: '',
+    	form: {
+    		message: ''
+    	}
   	},
   	mounted: function(){
   		var that = this;
@@ -155,7 +179,10 @@ $(document).ready(function(){
 			});
   		},
   		postApi: function(){
-  			console.log('posting form to api');	
+  			var that = this;
+  			$.post("/api/", that.form, function(data, status){
+		        that.response = JSON.stringify(JSON.parse(data), null, 2);
+		    });
   		}
   	}
 	});
