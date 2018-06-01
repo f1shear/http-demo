@@ -4,3 +4,7 @@
 curl -X GET 127.0.0.1:5000/api/
 
 curl -X POST -d "message=hello" 127.0.0.1:5000/api/
+
+ curl -X GET  --user admin:secret http://127.0.0.1:5000/api/protected/
+
+ 
