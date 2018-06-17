@@ -9,9 +9,27 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
 	<link rel="stylesheet" type="text/css" href="/static/main.css">
-
+	
 	<div class='page'>
+	
+	<div>
+	<h2>HTTP KEY Concepts</h2>
+	<ul>
+		<li>HTTP Protocol</li>
+		<li>HTTP Session </li>
+		<li>Request, Response</li>
+		<li>HTTP headers </li>
+		<li>HTTP status codes </li>
+		<li>Session</li>
+		<li>Cookies</li>
+		<li>HTTP Methods: GET, POST, PUT, PATCH, DELETE</li>
+		<li>HTTP Authentication</li>
+		<li>HTTPS</li>
+		<li>XHR, AJAX</li>
+	</ul>
 
+	</div>
+	<hr>
 		<h2> Server Rendered </h2>
 		<b> Please refresh to see the change </b>
 		<hr>
@@ -78,6 +96,7 @@
 	<div class='row'>
 		<div class='col-12'>
 	<h2> Dynamic: {{title}} </h2>
+	<hr>
 </div>
 
 </div>
@@ -90,7 +109,7 @@
 	<p>
 		Click on the button "Request" below to send ajax request to endpoint /api/ using <b>GET</b> method.
 	</p>
-<button class='btn btn-default' v-on:click='fetchApi()'> Request </button>
+<button class='btn btn-primary' v-on:click='fetchApi()'> Request </button>
 
 <hr>
 
@@ -101,8 +120,20 @@
 		Click on the button "Send" below to send ajax request to endpoint /api/ using <b>POST </b> method.
 	</p>
 
-	<input type='text' name='message' v-model='form.message'>
-	<button class='btn btn-default' type='submit'> Send </button>
+	<input type='text' name='message' v-model='form.message' placeholder="message">
+	<br>
+	<b> Datastore </b>
+	<br>
+	<select name='datastore' v-model='form.datastore'>
+		<option value=''> ---- </option>
+		<option value='postgresql'> Postgresql (sql) </option>
+		<option value='mongo'> Mongodb (nosql) </option>
+		<option value='rabbitmq'> Rabbit MQ (message queue) </option>
+		<option value='redis'> Redis (in-memory db) </option>
+		<option value='memcache'> Memcache </option>
+	</select>
+	<br>
+	<button class='btn btn-primary' type='submit'> Send </button>
 </form>
 
 
@@ -111,7 +142,7 @@
 	<p>
 		Click on the button "Authenticate" to authenticate.
 	</p>
-	<button class='btn btn-default' v-on:click='authenticate()'>
+	<button class='btn btn-primary' v-on:click='authenticate()'>
 		Authenticate
 	</button>
 
@@ -172,7 +203,8 @@ $(document).ready(function(){
     	response: '',
     	request: '',
     	form: {
-    		message: ''
+    		message: '',
+    		datastore: ''
     	},
     	login:{
     		username: '',

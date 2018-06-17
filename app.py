@@ -7,7 +7,9 @@ from functools import wraps
 import json
 import logging
 import datetime
+from datastore import DataStore
 
+logging.getLogger().setLevel(logging.INFO)
 
 app = Flask(__name__, static_folder='static')
 
@@ -48,12 +50,13 @@ def extract_info(val):
 def log_request(request, session):
     print("--------------------------")
     print("Request: headers, query params, form data, cookies, session")
-    logging.error(request.headers)
-    logging.error(request.headers.get('Host'))
-    logging.error(request.args)
-    logging.error(request.form)
-    logging.error(request.cookies)
-    logging.error(session)
+    # Usage:access-request-info
+    logging.info(request.headers)
+    logging.info(request.headers.get('Host'))
+    logging.info(request.args)
+    logging.info(request.form)
+    logging.info(request.cookies)
+    logging.info(session)
     print("---------------------------")
     if 'request_counter' not in session:
         session['request_counter'] = 1
@@ -80,7 +83,7 @@ def get_now():
 @app.route('/', methods=['GET'])
 def home():
     request_info = extract_request(request, session)
-    context = {'title': 'MunkTech', 'request_info': request_info}
+    context = {'title': 'CodeMunk', 'request_info': request_info}
     response = make_response(render_template('home.html', **context))
     response.set_cookie('dt', get_now())
     return response
@@ -89,7 +92,11 @@ def home():
 @app.route('/api/', methods=['GET', 'POST'])
 def api_home():
     request_info = extract_request(request, session)
-    context = {'title': 'MunkTech', 'request_info': request_info}
+    if request.method == 'POST':
+        message = request.form.get('message', '')
+        datastore = request.form.get('datastore', '')
+        DataStore.store_message(datastore, message)
+    context = {'request_info': request_info}
     response = make_response(json.dumps(context))
     response.set_cookie('dt', get_now())
     return response
@@ -99,7 +106,7 @@ def api_home():
 @requires_auth
 def secret_page():
     request_info = extract_request(request, session)
-    context = {'title': 'MunkTech', 'request_info': request_info}
+    context = {'request_info': request_info}
     response = make_response(json.dumps(context))
     response.set_cookie('dt', get_now())
     return response
